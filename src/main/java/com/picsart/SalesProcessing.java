@@ -58,14 +58,14 @@ public class SalesProcessing {
      * @throws SQLException If a database access error occurs.
      */
     private static boolean isStockAvailable(Connection connection, int bookId, int quantity) throws SQLException {
-        String selectQuery = "SELECT Books.QuantityInStock FROM Books WHERE BookID = ?";
+        String selectQuery = "SELECT Books.QuantityInStock AS quantity_stock FROM Books WHERE BookID = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, bookId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    int currentStock = resultSet.getInt("Books.QuantityInStock");
+                    int currentStock = resultSet.getInt("quantity_stock");
                     return currentStock >= quantity;
                 }
             }
@@ -83,14 +83,14 @@ public class SalesProcessing {
      * @throws SQLException If a database access error occurs.
      */
     private static double calculateTotalPrice(Connection connection, int bookId, int quantity) throws SQLException {
-        String selectQuery = "SELECT Books.Price FROM Books WHERE BookID = ?";
+        String selectQuery = "SELECT Books.Price AS price FROM Books WHERE BookID = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(selectQuery)) {
             preparedStatement.setInt(1, bookId);
 
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
                 if (resultSet.next()) {
-                    double unitPrice = resultSet.getDouble("Books.Price");
+                    double unitPrice = resultSet.getDouble("price");
                     return unitPrice * quantity;
                 }
             }
@@ -107,7 +107,7 @@ public class SalesProcessing {
      * @throws SQLException If a database access error occurs.
      */
     private static void updateStockQuantity(Connection connection, int bookId, int quantity) throws SQLException {
-        String updateQuery = "UPDATE Books SET Books.QuantityInStock = Books.QuantityInStock - ? WHERE BookID = ?";
+        String updateQuery = "UPDATE Books SET QuantityInStock = QuantityInStock - ? WHERE BookID = ?";
 
         try (PreparedStatement preparedStatement = connection.prepareStatement(updateQuery)) {
             preparedStatement.setInt(1, quantity);
@@ -149,7 +149,7 @@ public class SalesProcessing {
      * @param connection The database connection.
      */
     public static void calculateTotalRevenueByGenre(Connection connection) {
-        String selectQuery = "SELECT Books.Genre, SUM(Sales.TotalPrice) AS total_revenue FROM Sales " +
+        String selectQuery = "SELECT Books.Genre AS genre, SUM(Sales.TotalPrice) AS total_revenue FROM Sales " +
                 "JOIN Books ON Sales.BookID = Books.BookID " +
                 "GROUP BY Books.Genre";
 
@@ -157,7 +157,7 @@ public class SalesProcessing {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                String genre = resultSet.getString("Genre");
+                String genre = resultSet.getString("genre");
                 double totalRevenue = resultSet.getDouble("total_revenue");
                 System.out.println("Genre: " + genre + ", Total Revenue: $" + totalRevenue);
             }

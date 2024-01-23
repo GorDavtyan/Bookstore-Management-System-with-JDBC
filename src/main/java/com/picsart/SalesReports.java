@@ -52,7 +52,7 @@ public class SalesReports {
      * @param connection The database connection.
      */
     public static void generateRevenueReportByGenre(Connection connection) {
-        String selectQuery = "SELECT Books.Genre, SUM(Sales.TotalPrice) AS total_revenue " +
+        String selectQuery = "SELECT Books.Genre AS genre, SUM(Sales.TotalPrice) AS total_revenue " +
                 "FROM Books " +
                 "JOIN Sales ON Books.BookID = Sales.BookID " +
                 "GROUP BY Books.Genre";
@@ -61,7 +61,7 @@ public class SalesReports {
              ResultSet resultSet = preparedStatement.executeQuery()) {
 
             while (resultSet.next()) {
-                String genre = resultSet.getString("Books.Genre");
+                String genre = resultSet.getString("genre");
                 double totalRevenue = resultSet.getDouble("total_revenue");
                 System.out.println("Genre: " + genre + ", Total Revenue: $" + totalRevenue);
             }

@@ -117,7 +117,7 @@ public class CLI {
      * @param connection The database connection.
      */
     public void inputForCustomersManagement(Scanner scanner, Connection connection) {
-        displayForSalesProcessing(scanner, connection);
+        displayForCustomersManagement(scanner, connection);
     }
 
     private void displayForCustomersManagement(Scanner scanner, Connection connection) {
@@ -178,7 +178,7 @@ public class CLI {
      * @param connection The database connection.
      */
     public void inputForSalesProcessing(Scanner scanner, Connection connection) {
-        displayForCustomersManagement(scanner, connection);
+        displayForSalesProcessing(scanner, connection);
     }
 
     private void displayForSalesProcessing(Scanner scanner, Connection connection) {

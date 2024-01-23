@@ -12,17 +12,17 @@ public class DatabaseConnection {
     /**
      * Database connection URL.
      */
-    private static final String ADDRESS = "jdbc:mysql://localhost:3306/SQL_FOR_DB";
+    private static final String ADDRESS = "jdbc:postgresql://localhost:32769/bookstore_db";
 
     /**
      * Database username.
      */
-    private static final String USER_NAME = "root";
+    private static final String USER_NAME = "postgres";
 
     /**
      * Database password.
      */
-    public static final String PASSWORD = "root";
+    public static final String PASSWORD = "postgres";
 
     /**
      * Establishes a connection to the database.
